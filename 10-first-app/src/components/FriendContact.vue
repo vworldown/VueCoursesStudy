@@ -1,6 +1,7 @@
 <template>
   <li>
-    <h2>{{ friend.name }} {{ friendIsFavorite ? "Favorite" : "" }}</h2>
+    <h2>{{ friend.name }} {{ friend.isFavorite ? "Favorite" : "" }}</h2>
+    <button @click="toggleFavorite(friend.id)">Toggle Favorite</button>
     <button @click="toggleDetails">
       {{ detailsAreVisible ? "Hide" : "Show" }} Details
     </button>
@@ -21,29 +22,41 @@ export interface FriendPropOptions {
 export default {
   props: {
     friend: Object as FriendPropOptions,
-    isFavorite: {
-      // type: String,
-      // required: false,
-      // default: "0",
-      // // 只允许 "1" or "0"
-      // validator: function (value: string) {
-      //   return value === "1" || value === "0";
-      // },
-      type: Boolean,
-      require: false,
-      default: false,
+    // isFavorite: {
+    //   // type: String,
+    //   // required: false,
+    //   // default: "0",
+    //   // // 只允许 "1" or "0"
+    //   // validator: function (value: string) {
+    //   //   return value === "1" || value === "0";
+    //   // },
+    //   type: Boolean,
+    //   require: false,
+    //   default: false,
+    // },
+  },
+  emits: {
+    // 保证没有传入参数进行提醒
+    "toggle-favorite": function (id: string) {
+      if (id) {
+        return true;
+      } else {
+        console.log("Id is missing!");
+        return false;
+      }
     },
   },
   data() {
     return {
       detailsAreVisible: false,
-      friendIsFavorite: (this as any).isFavorite,
     };
   },
   methods: {
     toggleDetails() {
       (this as any).detailsAreVisible = !(this as any).detailsAreVisible;
-      (this as any).friendIsFavorite = !(this as any).friendIsFavorite;
+    },
+    toggleFavorite(id: string) {
+      (this as any).$emit("toggle-favorite", id);
     },
   },
 };

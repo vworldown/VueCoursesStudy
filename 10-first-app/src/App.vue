@@ -8,7 +8,7 @@
         v-for="friend in friends"
         :key="friend.id"
         :friend="friend"
-        :isFavorite="true"
+        @toggle-favorite="toggleFavorite"
       />
     </ul>
     >
@@ -16,6 +16,9 @@
 </template>
 
 <script lang="ts">
+export interface FriendPropOptions {
+  [property: string]: string;
+}
 export default {
   data() {
     return {
@@ -25,15 +28,25 @@ export default {
           name: "Manual Lorenz",
           phone: "01234 5678 991",
           email: "manual@localhost.com",
+          isFavorite: true,
         },
         {
           id: "julie",
           name: "Julie Jones",
           phone: "0987 6543 221",
           email: "julie@localhost.com",
+          isFavorite: false,
         },
       ],
     };
+  },
+  methods: {
+    toggleFavorite(friendId: string) {
+      const identifyFriend = (this as any).friends.find(
+        (friend: FriendPropOptions) => friend.id === friendId
+      );
+      identifyFriend.isFavorite = !identifyFriend.isFavorite;
+    },
   },
 };
 </script>
