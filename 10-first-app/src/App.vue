@@ -3,12 +3,14 @@
     <header>
       <h3>My Friends</h3>
     </header>
+    <new-friend @generateNewFriend="generateNewFriend" />
     <ul>
       <friend-contact
         v-for="friend in friends"
         :key="friend.id"
         :friend="friend"
         @toggle-favorite="toggleFavorite"
+        @delete-friend="deleteFriend"
       />
     </ul>
     >
@@ -46,6 +48,15 @@ export default {
         (friend: FriendPropOptions) => friend.id === friendId
       );
       identifyFriend.isFavorite = !identifyFriend.isFavorite;
+    },
+    generateNewFriend(friend: FriendPropOptions) {
+      (this as any).friends.push(friend);
+    },
+    deleteFriend(friendId: string) {
+      const identifyFriendIndex = (this as any).friends.findIndex(
+        (friend: FriendPropOptions) => friend.id === friendId
+      );
+      (this as any).friends.splice(identifyFriendIndex, 1);
     },
   },
 };

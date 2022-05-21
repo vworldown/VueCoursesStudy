@@ -1,5 +1,5 @@
 <template>
-  <li>
+  <li @click="deleteFriend(friend.id)">
     <h2>{{ friend.name }} {{ friend.isFavorite ? "Favorite" : "" }}</h2>
     <button @click="toggleFavorite(friend.id)">Toggle Favorite</button>
     <button @click="toggleDetails">
@@ -35,17 +35,18 @@ export default {
     //   default: false,
     // },
   },
-  emits: {
-    // 保证没有传入参数进行提醒
-    "toggle-favorite": function (id: string) {
-      if (id) {
-        return true;
-      } else {
-        console.log("Id is missing!");
-        return false;
-      }
-    },
-  },
+  // emits: {
+  //   // 保证没有传入参数进行提醒
+  //   "toggle-favorite": function (id: string) {
+  //     if (id) {
+  //       return true;
+  //     } else {
+  //       console.log("Id is missing!");
+  //       return false;
+  //     }
+  //   },
+  // },
+  emits: ["toggle-favorite", "delete-friend"],
   data() {
     return {
       detailsAreVisible: false,
@@ -57,6 +58,9 @@ export default {
     },
     toggleFavorite(id: string) {
       (this as any).$emit("toggle-favorite", id);
+    },
+    deleteFriend(id: string) {
+      (this as any).$emit("delete-friend", id);
     },
   },
 };
