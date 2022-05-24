@@ -1,6 +1,8 @@
 <template>
-  <li @click="deleteFriend(friend.id)">
-    <h2>{{ friend.name }} {{ friend.isFavorite ? "Favorite" : "" }}</h2>
+  <li>
+    <h2 @click="deleteFriend(friend.id)">
+      {{ friend.name }} {{ friend.isFavorite ? "Favorite" : "" }}
+    </h2>
     <button @click="toggleFavorite(friend.id)">Toggle Favorite</button>
     <button @click="toggleDetails">
       {{ detailsAreVisible ? "Hide" : "Show" }} Details
