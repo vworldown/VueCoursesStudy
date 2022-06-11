@@ -52,9 +52,9 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 
-const emit = defineEmits<{
-  (e: "survey-submit", surveyData: { userName: string; rating: string }): void;
-}>();
+// const emit = defineEmits<{
+//   (e: "survey-submit", surveyData: { userName: string; rating: string }): void;
+// }>();
 
 let enteredName = ref("");
 let chosenRating = ref(null);
@@ -67,9 +67,20 @@ function submitSurvey() {
   }
   invalidInput.value = false;
 
-  emit("survey-submit", {
-    userName: enteredName.value,
-    rating: chosenRating.value,
+  // emit("survey-submit", {
+  //   userName: enteredName.value,
+  //   rating: chosenRating.value,
+  // });
+
+  fetch("https://vue-http-demo-81688-default-rtdb.firebaseio.com/survey.json", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name: enteredName.value,
+      rating: chosenRating.value,
+    }),
   });
 
   enteredName.value = "";
