@@ -14,7 +14,7 @@ const items = [
 
 <template>
   <ul>
-    <li v-for="item in items" :key="item">
+    <li v-for="item in items" :key="item.body">
       <!-- 
         v-bind="item" 和 :item="item" 的区别，
         v-bind="item" 之后 li 标签上的属性显示为 { body: "body1" }
