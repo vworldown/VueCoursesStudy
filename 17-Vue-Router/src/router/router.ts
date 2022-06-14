@@ -1,4 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
+import TeamsList from "../components/teams/TeamsList.vue";
+import TheFooter from "../components/nav/TheFooter.vue";
 
 export const router = createRouter({
   history: createWebHashHistory(),
@@ -9,7 +11,7 @@ export const router = createRouter({
     },
     {
       path: "/teams",
-      component: () => import("../components/teams/TeamsList.vue"),
+      components: { default: TeamsList, footer: TheFooter },
       children: [
         {
           path: ":id",
