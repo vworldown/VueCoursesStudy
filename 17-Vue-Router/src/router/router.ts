@@ -19,9 +19,12 @@ export const router = createRouter({
       path: "/users",
       component: () => import("../components/users/UsersList.vue"),
     },
-    // {
-    //   path: "/user"
-    // }
+    {
+      // 括号中为参数(:notFound)指定一个自定义的正则
+      // .* 是匹配所有
+      path: "/:notFound(.*)",
+      redirect: "/teams",
+    },
   ],
   linkActiveClass: "active",
 });
