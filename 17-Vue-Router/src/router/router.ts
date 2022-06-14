@@ -10,10 +10,12 @@ export const router = createRouter({
     {
       path: "/teams",
       component: () => import("../components/teams/TeamsList.vue"),
-    },
-    {
-      path: "/teams/:id",
-      component: () => import("../components/teams/TeamMembers.vue"),
+      children: [
+        {
+          path: ":id",
+          component: () => import("../components/teams/TeamMembers.vue"),
+        },
+      ],
     },
     {
       path: "/users",
