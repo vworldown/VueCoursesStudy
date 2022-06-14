@@ -3,10 +3,10 @@
     <nav>
       <ul>
         <li>
-          <button @click="setActivePage('teams-list')">Teams</button>
+          <router-link to="/teams">Teams</router-link>
         </li>
         <li>
-          <button @click="setActivePage('users-list')">Users</button>
+          <router-link to="/users">Users</router-link>
         </li>
       </ul>
     </nav>
@@ -14,13 +14,13 @@
 </template>
 
 <script lang="ts" setup>
-const emit = defineEmits<{
-  (e: "set-page", page: string): void;
-}>();
+// const emit = defineEmits<{
+//   (e: "set-page", page: string): void;
+// }>();
 
-function setActivePage(page: string) {
-  emit("set-page", page);
-}
+// function setActivePage(page: string) {
+//   emit("set-page", page);
+// }
 </script>
 
 <style scoped>
@@ -58,8 +58,16 @@ button {
   display: inline-block;
 }
 
-button:hover,
-button:active {
+a {
+  padding: 5px 10px;
+  text-decoration: none;
+  color: #fff;
+  border: 1px solid transparent;
+}
+
+a:hover,
+a:active,
+a.active {
   color: #f1a80a;
   border-color: #f1a80a;
   background-color: #1a037e;

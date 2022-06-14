@@ -1,4 +1,5 @@
 <template>
+  <button @click="confirmInput">Confirm</button>
   <ul>
     <user-item
       v-for="user in users"
@@ -11,6 +12,7 @@
 
 <script lang="ts" setup>
 import { inject } from "vue";
+import { useRouter } from "vue-router";
 import UserItem from "./UserItem.vue";
 
 interface User {
@@ -19,6 +21,13 @@ interface User {
   role: string;
 }
 const users: User[] | undefined = inject("users");
+
+const router = useRouter();
+function confirmInput() {
+  // do something ..
+  // wanna back to /teams
+  router.push("/teams");
+}
 </script>
 
 <style scoped>
