@@ -31,4 +31,13 @@ export const router = createRouter({
     },
   ],
   linkActiveClass: "active",
+  // scrollBehavior 函数接收 to和 from 路由对象
+  // 第三个参数 savedPosition，只有当这是一个 popstate 导航时才可用（由浏览器的后退/前进按钮触发）
+  scrollBehavior(to, from, savedPosition) {
+    // console.log(to, from, savedPosition);
+    if (savedPosition) {
+      return savedPosition;
+    }
+    return { left: 0, top: 0 };
+  },
 });
