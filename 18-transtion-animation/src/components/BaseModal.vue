@@ -3,16 +3,22 @@ const emit = defineEmits<{
   (e: "close"): void;
 }>();
 
+defineProps<{
+  open: boolean;
+}>();
+
 function close() {
   emit("close");
 }
 </script>
 
 <template>
-  <div class="backdrop" @click="close"></div>
-  <dialog open>
-    <slot></slot>
-  </dialog>
+  <div class="backdrop" v-if="open" @click="close"></div>
+  <transition name="modal">
+    <dialog open v-if="open">
+      <slot></slot>
+    </dialog>
+  </transition>
 </template>
 
 <style scoped>
@@ -38,5 +44,22 @@ dialog {
   background-color: white;
   z-index: 100;
   border: none;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+  transform: translateY(-50px) scale(0.9);
+}
+
+.modal-enter-active,
+.modal-leave-active {
+  transition: all 1s;
+}
+
+.modal-enter-to,
+.modal-leave-from {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 </style>

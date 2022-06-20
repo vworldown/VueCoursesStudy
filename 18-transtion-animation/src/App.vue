@@ -1,7 +1,9 @@
 <script lang="ts" setup>
 import { ref } from "vue";
+import BaseModal from "./components/BaseModal.vue";
 
 const dialogIsVisible = ref(false);
+const paraIsVisible = ref(false);
 
 function showDialog() {
   dialogIsVisible.value = true;
@@ -9,17 +11,93 @@ function showDialog() {
 function hideDialog() {
   dialogIsVisible.value = false;
 }
+
+function animateBlock() {
+  let block: HTMLElement = document.querySelector(".block")!;
+  block.style.transform = "translateX(5rem)";
+}
+
+function toggleParagraphy() {
+  paraIsVisible.value = !paraIsVisible.value;
+}
+
+function beforeEnter(el: HTMLElement) {
+  console.log("beforeEach");
+  console.log(el);
+  el.style.opacity = "0";
+}
+
+function enter(el: HTMLElement, done: any) {
+  console.log("enter");
+  console.log(el);
+  let round = 1;
+  const interval = setInterval(() => {
+    el.style.opacity = round * 0.01 + "";
+    round++;
+    if (round > 100) {
+      clearInterval(interval);
+      done();
+    }
+  }, 20);
+}
+
+function afterEnter(el: HTMLElement) {
+  console.log("afterEnter");
+  console.log(el);
+  el.style.opacity = "1";
+}
+
+function beforeLeave(el: HTMLElement) {
+  console.log("beforeLeave");
+  console.log(el);
+  el.style.opacity = "1";
+}
+
+function leave(el: HTMLElement, done: any) {
+  console.log("leave");
+  console.log(el);
+  let round = 100;
+  const interval = setInterval(() => {
+    el.style.opacity = round * 0.01 + "";
+    round--;
+    if (round < 0) {
+      clearInterval(interval);
+      done();
+    }
+  }, 20);
+}
+
+function afterLeave(el: HTMLElement) {
+  console.log("afterLeave");
+  console.log(el);
+  el.style.opacity = "0";
+}
 </script>
 
 <template>
   <div class="container">
     <div class="block"></div>
-    <button>Animate</button>
+    <button @click="animateBlock">Animate</button>
   </div>
-  <base-modal @close="hideDialog" v-if="dialogIsVisible">
+  <div class="container">
+    <!-- :css="false" 告诉 vue 这个 transition 组件不会使用 css 效果过渡 -->
+    <transition
+      :css="false"
+      @before-enter="beforeEnter"
+      @enter="enter"
+      @after-enter="afterEnter"
+      @before-leave="beforeLeave"
+      @leave="leave"
+      @after-leave="afterLeave"
+    >
+      <p v-if="paraIsVisible">This is only sometimes visible ...</p>
+    </transition>
+    <button @click="toggleParagraphy">Toggle Paragraph</button>
+  </div>
+  <BaseModal @close="hideDialog" :open="dialogIsVisible">
     <p>This is a test dialog!</p>
     <button @click="hideDialog">Close it!</button>
-  </base-modal>
+  </BaseModal>
   <div class="container">
     <button @click="showDialog">Show Dialog</button>
   </div>
@@ -54,6 +132,7 @@ button:active {
   height: 8rem;
   background-color: #290033;
   margin-bottom: 2rem;
+  transition: all 0.5s;
 }
 .container {
   max-width: 40rem;
@@ -66,4 +145,19 @@ button:active {
   border: 2px solid #ccc;
   border-radius: 12px;
 }
+
+/* .para-enter-from,
+.para-leave-to {
+  opacity: 0;
+}
+
+.para-enter-active,
+.para-leave-active {
+  transition: all 1s;
+}
+
+.para-enter-to,
+.para-leave-from {
+  opacity: 1;
+} */
 </style>
